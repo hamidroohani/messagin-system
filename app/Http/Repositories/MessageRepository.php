@@ -20,6 +20,10 @@ class MessageRepository extends CRUD
         return $this->message->whereIn('id', function ($query) {
             $query->selectRaw('MAX(id)')
                 ->from('messages')
+                ->where(function ($query) {
+                    $query->where('sender_id', auth()->id())
+                        ->orWhere('receiver_id', auth()->id());
+                })
                 ->whereColumn('sender_id', '!=', 'receiver_id')
                 ->groupBy(DB::raw('CASE WHEN sender_id < receiver_id THEN sender_id ELSE receiver_id END'))
                 ->groupBy(DB::raw('CASE WHEN sender_id < receiver_id THEN receiver_id ELSE sender_id END'));
