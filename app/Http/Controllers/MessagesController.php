@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\MessageStatus;
 use App\Http\Repositories\MessageRepository;
 use App\Http\Repositories\UserRepository;
 use App\Models\Message;
@@ -18,6 +19,7 @@ class MessagesController extends Controller
         $this->messageRepository = new MessageRepository(new Message());
         $this->userRepository = new UserRepository(new User());
     }
+
     public function index(Request $request)
     {
         // get the chat screen based on entry
@@ -30,7 +32,27 @@ class MessagesController extends Controller
 
         // get the main chat messages
         $messages = $this->messageRepository->get_direct_messages($participant->id);
-        
+
         return view('pages.messages', compact('last_messages', 'last_saved_message', 'messages', 'participant'));
+    }
+
+    public function save_message(Request $request)
+    {
+        $this->validate($request, [
+            'body' => "required|string"
+        ]);
+
+        // get the chat screen based on entry
+        $participant = $request->input('email');
+        $participant = $this->userRepository->find_by_email($participant);
+
+        $this->messageRepository->store([
+            "sender_id" => auth()->id(),
+            "receiver_id" => $participant->id,
+            "body" => $request->input('body'),
+            "status" => MessageStatus::SENT,
+        ]);
+
+        return back();
     }
 }
