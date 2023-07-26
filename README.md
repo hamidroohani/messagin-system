@@ -46,3 +46,8 @@ sudo chown -R www-data ../.
 
 go to http://127.0.0.1:8903
 
+### Sample Username and Password
+```bash
+email: pavel.durov@example.com
+password: 123456
+```

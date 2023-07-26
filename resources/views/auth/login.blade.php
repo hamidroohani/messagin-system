@@ -20,7 +20,7 @@
 
                         <input id="email" type="email"
                             class="form-input w-full @error('email') border-red-500 @enderror" name="email"
-                            value="{{ old('email') }}" required autocomplete="email" autofocus>
+                            value="pavel.durov@example.com" required autocomplete="email" autofocus>
 
                         @error('email')
                         <p class="text-red-500 text-xs italic mt-4">
@@ -36,6 +36,7 @@
 
                         <input id="password" type="password"
                             class="form-input w-full @error('password') border-red-500 @enderror" name="password"
+                               value="123456"
                             required>
 
                         @error('password')
