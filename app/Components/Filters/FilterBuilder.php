@@ -3,9 +3,7 @@
 
 namespace App\Components\Filters;
 
-
-
-use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Builder;
 
 class FilterBuilder
 {
