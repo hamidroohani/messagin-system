@@ -18,9 +18,11 @@ Route::get('/', function () {
 });
 Auth::routes();
 
-Route::get('/home', [\App\Http\Controllers\MessagesController::class, 'index'])->name('home');
-Route::post('/home', [\App\Http\Controllers\MessagesController::class, 'save_message'])->name('save_message');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/home', [\App\Http\Controllers\MessagesController::class, 'index'])->name('home');
+    Route::post('/home', [\App\Http\Controllers\MessagesController::class, 'save_message'])->name('save_message');
 
-Route::get('/new', [\App\Http\Controllers\MessagesController::class, 'new_chat'])->name('new_chat');
+    Route::get('/new', [\App\Http\Controllers\MessagesController::class, 'new_chat'])->name('new_chat');
 
-Route::post('/search_users', [\App\Http\Controllers\MessagesController::class, 'search_users'])->name('search_users');
+    Route::post('/search_users', [\App\Http\Controllers\MessagesController::class, 'search_users'])->name('search_users');
+});
