@@ -52,14 +52,4 @@ class Message extends Model
         $filter = new FilterBuilder($query, $filters, $namespace);
         return $filter->apply();
     }
-
-    protected static function booted()
-    {
-        $events = ['creating', 'updating', 'saving', 'deleting'];
-        foreach ($events as $event) {
-            static::{$event}(function ($model) {
-                Cache::tags($model->cache_tags)->flush();
-            });
-        }
-    }
 }
