@@ -53,6 +53,28 @@ class MessagesController extends Controller
             "status" => MessageStatus::SENT,
         ]);
 
-        return back();
+        return redirect(route('home', ['email' => $participant->email]));
+    }
+
+    public function new_chat()
+    {
+        //those are for the sidebar
+        $last_messages = $this->messageRepository->last_messages();
+        $last_saved_message = $this->messageRepository->last_saved_message();
+
+        return view("pages.new_chat", compact('last_messages', 'last_saved_message'));
+    }
+
+    public function search_users(Request $request)
+    {
+        $users = $this->userRepository->search($request->input("q"));
+        $results = [];
+        foreach ($users as $user) {
+            $results[] = [
+                'id' => $user->email,
+                'text' => $user->name . " - " . $user->email,
+            ];
+        }
+        return $results;
     }
 }

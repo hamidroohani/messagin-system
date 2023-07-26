@@ -35,4 +35,13 @@ class UserRepository extends CRUD
 
         return $user;
     }
+
+    public function search($q)
+    {
+        return $this->user
+            ->where('id', '!=', auth()->id())
+            ->where('email', 'like', '%' . $q . "%")
+            ->limit(5)
+            ->get();
+    }
 }
