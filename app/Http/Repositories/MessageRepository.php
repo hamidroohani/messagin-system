@@ -6,6 +6,7 @@ use App\Components\Repositories\CRUD;
 use App\Models\Message;
 use App\Models\User;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 
 class MessageRepository extends CRUD
 {
@@ -16,23 +17,14 @@ class MessageRepository extends CRUD
 
     public function last_messages(): LengthAwarePaginator
     {
-        return $this->message->select('id', 'sender_id', 'receiver_id', 'body', 'created_at')
-            ->where(function ($query) {
-                $query->whereIn('sender_id', User::pluck('id'))
-                    ->orWhereIn('receiver_id', User::pluck('id'));
+        return $this->message->whereIn('id', function ($query) {
+            $query->selectRaw('MAX(id)')
+                ->from('messages')
+                ->whereColumn('sender_id', '!=', 'receiver_id')
+                ->groupBy(DB::raw('CASE WHEN sender_id < receiver_id THEN sender_id ELSE receiver_id END'))
+                ->groupBy(DB::raw('CASE WHEN sender_id < receiver_id THEN receiver_id ELSE sender_id END'));
             })
-            ->whereIn('id', function ($query) {
-                $query->selectRaw('MAX(id)')
-                    ->from('messages')
-                    ->whereRaw('messages.sender_id = sender_id OR messages.receiver_id = sender_id')
-                    ->groupBy('sender_id');
-            })
-            ->whereIn('id', function ($query) {
-                $query->selectRaw('MAX(id)')
-                    ->from('messages')
-                    ->whereRaw('messages.sender_id = receiver_id OR messages.receiver_id = receiver_id')
-                    ->groupBy('receiver_id');
-            })
+            ->orderByDesc('created_at')
             ->paginate();
     }
 
@@ -43,7 +35,7 @@ class MessageRepository extends CRUD
 
     public function get_direct_messages($participant_id)
     {
-        if ($participant_id !== auth()->id()){
+        if ($participant_id !== auth()->id()) {
             return $this->message->query()->whereColumn('sender_id', '!=', 'receiver_id')
                 ->where(function ($query) use ($participant_id) {
                     $query->where('sender_id', $participant_id)->orWhere('receiver_id', $participant_id);
