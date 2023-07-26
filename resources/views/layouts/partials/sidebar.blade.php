@@ -3,7 +3,7 @@
         <div class="flex flex-row items-center">
             <div class="flex flex-row items-center">
                 <div class="text-xl font-semibold">Messages</div>
-                <div class="flex items-center justify-center ml-2 text-xs h-5 w-5 text-white bg-red-500 rounded-full font-medium">5</div>
+{{--                <div class="flex items-center justify-center ml-2 text-xs h-5 w-5 text-white bg-red-500 rounded-full font-medium">5</div>--}}
             </div>
             <div class="ml-auto">
                 <button class="flex items-center justify-center h-7 w-7 bg-gray-200 text-gray-500 rounded-full">
@@ -48,7 +48,7 @@
                         <div class="text-xs truncate w-40">{{ $last_saved_message?->body }}</div>
                     </div>
                     <div class="flex-shrink-0 ml-2 self-end mb-1">
-                        <span class="flex items-center justify-center h-5 w-5 bg-red-500 text-white text-xs rounded-full">3</span>
+{{--                        <span class="flex items-center justify-center h-5 w-5 bg-red-500 text-white text-xs rounded-full">3</span>--}}
                     </div>
                 </a>
                 @foreach($last_messages as $last_message)
@@ -74,7 +74,7 @@
                             <div class="text-xs truncate w-40">@if($sender_is_you) You: @endif{{ $last_message->body }}</div>
                         </div>
                         <div class="flex-shrink-0 ml-2 self-end mb-1">
-                            <span class="flex items-center justify-center h-5 w-5 bg-red-500 text-white text-xs rounded-full">3</span>
+{{--                            <span class="flex items-center justify-center h-5 w-5 bg-red-500 text-white text-xs rounded-full">3</span>--}}
                         </div>
                     </a>
                 @endforeach
