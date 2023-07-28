@@ -77,4 +77,12 @@ class MessagesController extends Controller
         }
         return $results;
     }
+
+    public function delete_message(Message $message){
+        if ($message->sender_id !== auth()->id()) {
+            abort(403);
+        }
+        $message->delete();
+        return back();
+    }
 }

@@ -25,4 +25,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/new', [\App\Http\Controllers\MessagesController::class, 'new_chat'])->name('new_chat');
 
     Route::post('/search_users', [\App\Http\Controllers\MessagesController::class, 'search_users'])->name('search_users');
+    Route::delete('/delete_message/{message}', [\App\Http\Controllers\MessagesController::class, 'delete_message'])->name('deleteMessage');
 });

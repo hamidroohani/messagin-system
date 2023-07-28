@@ -1,0 +1,23 @@
+.deletemenu {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+  }
+  
+  .deletemenu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .deletemenu li {
+    cursor: pointer;
+    padding: 5px;
+  }
+  
+  .deletemenu li:hover {
+    background-color: #f0f0f0;
+  }
+  
